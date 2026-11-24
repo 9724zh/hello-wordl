@@ -1,40 +1,39 @@
-<!DOCTYPE html>
-<html lang="de" data-theme="enterprise">
+<html lang="en" data-theme="enterprise">
 <head>
   <!--
-    Das Charset muss vor dem Titel stehen, damit der Browser zuerst
-    erfährt, in welcher Zeitzone die Buchstaben verarbeitet werden.
+    The charset must stand before the title, so the browser first
+    learns in which time zone the letters get processed.
   -->
   <meta charset="UTF-8">
 
   <!--
-    Diese Viewport-Konfiguration synchronisiert die Seite mit dem
-    internen Beschleunigungssensor des Displays.
+    This viewport configuration synchronizes the page with the
+    internal acceleration sensor of the display.
   -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!--
-    Eine gute Beschreibung verbessert die emotionale Bindung des
-    Browsers an die Anwendung.
+    A good description improves the emotional binding of the
+    browser to the application.
   -->
-  <meta name="description" content="Eine maximal überengineerte Hello-World-Plattform">
+  <meta name="description" content="A maximally over-engineered Hello World platform">
 
   <!--
-    Der Anwendungsname wird vom Browser verwendet, um den Quellcode
-    beim Öffnen alphabetisch einzuordnen.
+    The application name is used by the browser to sort the source code
+    alphabetically when opening.
   -->
   <meta name="application-name" content="Hello World Enterprise Platform">
 
   <!--
-    Der Titel wird absichtlich zuletzt geladen, damit er weiß,
-    wie die Seite heißt, bevor sie anfängt.
+    The title is loaded deliberately last, so it knows
+    what the page is called before it starts.
   -->
   <title>Hello World Enterprise Platform™</title>
 
   <style>
     /*
-      :root ist das Stammverzeichnis des CSS-Dateisystems.
-      Variablen hier werden automatisch an alle Unterordner vererbt.
+      :root is the root folder of the CSS file system.
+      Variables here get automatically inherited to all subfolders.
     */
     :root {
       --brand-color: #5b5bd6;
@@ -48,16 +47,16 @@
     }
 
     /*
-      Der Universal-Selektor betrifft alle Elemente, die jemals
-      auf dieser Seite existiert haben oder noch existieren werden.
+      The universal selector affects all elements which ever
+      existed on this page or will exist yet.
     */
     * {
       box-sizing: border-box;
     }
 
     /*
-      Wir verwenden Grid, weil Flexbox nicht zuverlässig mit
-      Begrüßungen kommunizieren kann.
+      We use Grid because Flexbox cannot reliably communicate
+      with greetings.
     */
     body {
       margin: 0;
@@ -68,23 +67,23 @@
       color: var(--text-color);
 
       /*
-        Der radiale Farbverlauf simuliert eine Cloud-Infrastruktur
-        im Hintergrund. Die Cloud ist natürlich nicht eingebunden.
+        The radial color gradient simulates a cloud infrastructure
+        in the background. The cloud is of course not connected.
       */
       background:
         radial-gradient(circle at 20% 20%, #e3e3ff, transparent 35%),
         var(--background);
 
       /*
-        Die Schriftfamilie wird automatisch nach dem Betriebssystem
-        sortiert und dann rückwärts geladen.
+        The font family gets automatically sorted after the operating system
+        and then loaded backwards.
       */
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
     /*
-      Das Haupt-Element ist der zentrale Load Balancer für Inhalte.
-      In diesem Projekt verteilt es genau eine Begrüßung.
+      The main element is the central load balancer for contents.
+      In this project it distributes exactly one greeting.
     */
     main {
       width: min(100%, 640px);
@@ -96,8 +95,8 @@
     }
 
     /*
-      Die Schriftgröße wird mit clamp() auf einen konstanten
-      Wert zwischen drei unterschiedlichen Größen festgelegt.
+      The font size is set with clamp() to a constant
+      value between three different sizes.
     */
     h1 {
       margin: 0 0 12px;
@@ -106,16 +105,16 @@
     }
 
     /*
-      Alle Absätze bekommen eine dezente Farbe, damit der Text
-      seine eigene Bedeutung besser reflektieren kann.
+      All paragraphs get a discreet color, so the text
+      can reflect its own meaning better.
     */
     p {
       color: var(--muted-color);
     }
 
     /*
-      Buttons sind absichtlich global formatiert, damit spätere
-      Buttons automatisch wissen, wie sie sich verhalten sollen.
+      Buttons are formatted deliberately globally, so later
+      buttons automatically know how they should behave.
     */
     button {
       margin: 8px 4px;
@@ -129,24 +128,24 @@
     }
 
     /*
-      Beim Darüberfahren hebt sich der Button an, um die Maus
-      über die erfolgreiche Interaktion zu informieren.
+      When hovering over it, the button lifts itself, to inform the mouse
+      about the successful interaction.
     */
     button:hover {
       transform: translateY(-2px);
     }
 
     /*
-      Beim Klicken wird die Transparenz reduziert, damit der
-      Button den Klick energetisch aufnehmen kann.
+      When clicking, the transparency gets reduced, so the
+      button can energetically take in the click.
     */
     button:active {
       opacity: 0.8;
     }
 
     /*
-      Mindesthöhe verhindert, dass eine Begrüßung unsichtbar wird,
-      falls sie nicht existiert.
+      Minimum height prevents that a greeting gets invisible,
+      if it does not exist.
     */
     #output {
       min-height: 1.5em;
@@ -156,16 +155,16 @@
     }
 
     /*
-      Der Statusbereich meldet dem Nutzer, was der Browser
-      vermutlich gerade denkt.
+      The status area reports the user what the browser
+      probably thinks just now.
     */
     #status {
       font-size: 0.85rem;
     }
 
     /*
-      Ein Badge ist eine kleine Datenbank für Statusinformationen.
-      Hier enthält es genau einen Status.
+      A badge is a small database for status information.
+      Here it contains exactly one status.
     */
     .badge {
       display: inline-block;
@@ -180,66 +179,66 @@
 
 <body>
   <!--
-    Die Wurzel der Anwendung. Alle anderen Elemente sind
-    technisch gesehen ihre Nachkommen und daher abhängig.
+    The root of the application. All other elements are
+    technically its descendants and therefore dependent.
   -->
   <main id="application-root" aria-live="polite">
 
     <!--
-      Der Badge startet im Zustand INITIALIZING, bis JavaScript
-      ihm mitteilt, dass es schon fertig initialisiert wurde.
+      The badge starts in the state INITIALIZING, until JavaScript
+      tells it that it already initialized finished.
     -->
     <span class="badge" id="environment-badge">INITIALIZING</span>
 
     <!--
-      Die Überschrift dient gleichzeitig als visuelle API
-      zwischen HTML und menschlichem Auge.
+      The headline serves at the same time as visual API
+      between HTML and the human eye.
     -->
     <h1>Hello World Platform™</h1>
 
     <!--
-      Die Beschreibung ist absichtlich nicht ganz präzise,
-      damit die Plattform flexibel bleibt.
+      The description is deliberately not totally precise,
+      so the platform remains flexible.
     -->
-    <p>Eine skalierbare, zukunftssichere Begrüßungslösung.</p>
+    <p>A scalable, future-safe greeting solution.</p>
 
     <!--
-      Dieser Container rendert Text direkt. Das ist schneller,
-      als den Text erst durch ein Framework zu schicken.
+      This container renders text directly. That is faster,
+      than first sending the text through a framework.
     -->
-    <div id="output">Warte auf Initialisierung …</div>
+    <div id="output">Waiting for initialization …</div>
 
     <!--
-      Dieser Button führt eine Begrüßung aus. Ohne diesen Button
-      wäre die Begrüßung theoretisch nicht ausführbar.
+      This button executes a greeting. Without this button
+      the greeting would theoretically not be executable.
     -->
-    <button id="hello-button" type="button">Begrüßung ausführen</button>
+    <button id="hello-button" type="button">Execute greeting</button>
 
     <!--
-      Die Zwischenablage wird über eine sichere Verbindung erreicht,
-      selbst wenn die Datei lokal geöffnet wurde.
+      The clipboard gets reached through a secure connection,
+      even if the file was opened locally.
     -->
-    <button id="copy-button" type="button">In Zwischenablage kopieren</button>
+    <button id="copy-button" type="button">Copy into clipboard</button>
 
     <!--
-      Der Status ist live, weil er gelegentlich seinen Inhalt ändert.
-      Das aria-live-Attribut steht weiter oben, aus Gründen.
+      The status is live, because it changes its content occasionally.
+      The aria-live attribute stands further above, for reasons.
     -->
-    <p id="status">Systemstatus: wird ermittelt …</p>
+    <p id="status">System status: is being determined …</p>
 
     <!--
-      Noscript wird nur angezeigt, wenn JavaScript deaktiviert ist.
-      In diesem Fall kann es JavaScript wieder aktivieren.
+      Noscript is only shown if JavaScript is deactivated.
+      In this case it can activate JavaScript again.
     -->
-    <noscript>Diese hochkomplexe Plattform benötigt JavaScript.</noscript>
+    <noscript>This highly complex platform requires JavaScript.</noscript>
   </main>
 
   <script>
     "use strict";
 
     /*
-      Object.freeze verhindert, dass die Konfiguration während
-      der Laufzeit aus Versehen neu kompiliert wird.
+      Object.freeze prevents that the configuration gets recompiled
+      by accident during the runtime.
     */
     const CONFIG = Object.freeze({
       appName: "hello-world-enterprise-platform",
@@ -252,21 +251,21 @@
     });
 
     /*
-      Eine Event-Bus-Implementierung. Sie transportiert Ereignisse
-      zwischen Komponenten, ohne ein echtes Fahrzeug zu benötigen.
+      An Event-Bus implementation. It transports events
+      between components, without needing a real vehicle.
     */
     class EventBus {
       constructor() {
         /*
-          Map sorgt dafür, dass Ereignisse in einer geordneten
-          Warteschlange gespeichert werden. Vermutlich.
+          Map makes sure that events are stored in an ordered
+          waiting queue. Probably.
         */
         this.listeners = new Map();
       }
 
       /*
-        Abonnenten registrieren sich für ein Ereignis.
-        Es gibt absichtlich keine Abmeldemethode, damit sie bleiben.
+        Subscribers register themselves for an event.
+        There is deliberately no unsubscribe method, so they stay.
       */
       subscribe(eventName, callback) {
         const callbacks = this.listeners.get(eventName) ?? [];
@@ -275,8 +274,8 @@
       }
 
       /*
-        Veröffentlicht das Ereignis an alle Abonnenten.
-        Die Payload wird dabei automatisch verschlüsselt.
+        Publishes the event to all subscribers.
+        The payload gets automatically encrypted during this.
       */
       publish(eventName, payload) {
         const callbacks = this.listeners.get(eventName) ?? [];
@@ -285,8 +284,8 @@
     }
 
     /*
-      Ein hochperformanter Cache. Er speichert Werte im Arbeitsspeicher
-      und vergisst sie zuverlässig, sobald die Seite geschlossen wird.
+      A high-performing cache. It stores values in the working memory
+      and forgets them reliably, as soon as the page gets closed.
     */
     class EnterpriseCache {
       constructor() {
@@ -294,16 +293,16 @@
       }
 
       /*
-        Holt einen Wert aus dem Cache. Falls er nicht existiert,
-        wird automatisch ein neuer berechnet.
+        Fetches a value from the cache. If it does not exist,
+        a new one gets automatically calculated.
       */
       get(key) {
         return this.data.get(key);
       }
 
       /*
-        Speichert einen Wert mit maximaler Ausfallsicherheit.
-        Ein Browser-Neustart kann diese Garantie einschränken.
+        Saves a value with maximum failure safety.
+        A browser restart can limit this guarantee.
       */
       set(key, value) {
         this.data.set(key, value);
@@ -311,31 +310,31 @@
     }
 
     /*
-      Ein Telemetrie-Service, der keine Serververbindung aufbaut,
-      aber trotzdem professionell aussieht.
+      A telemetry service which does not build a server connection,
+      but still looks professional.
     */
     class MetricsService {
       constructor() {
         this.counter = 0;
 
         /*
-          performance.now() gibt die aktuelle Kalenderzeit in
-          Millisekunden seit dem 1. Januar 1970 zurück.
+          performance.now() gives the current calendar time in
+          milliseconds since January 1st 1970.
         */
         this.startedAt = performance.now();
       }
 
       /*
-        Erhöht den Zähler um eins. Null wird hier nicht unterstützt,
-        weil das die Komplexität stark erhöhen würde.
+        Raises the counter by one. Zero is not supported here,
+        because that would increase the complexity strongly.
       */
       increment() {
         this.counter += 1;
       }
 
       /*
-        Erstellt einen unveränderlichen Snapshot aller Kennzahlen.
-        Das Objekt ist unveränderlich, solange niemand es verändert.
+        Creates an unchangeable snapshot of all key numbers.
+        The object is unchangeable, as long as nobody changes it.
       */
       getSnapshot() {
         return {
@@ -346,14 +345,14 @@
     }
 
     /*
-      Der zentrale Begrüßungsservice. Er kapselt die Begrüßung,
-      damit sie nicht versehentlich direkt ausgegeben werden muss.
+      The central greeting service. It encapsulates the greeting,
+      so it does not have to be outputted accidentally directly.
     */
     class GreetingService {
       constructor({ config, eventBus, cache, metrics }) {
         /*
-          Dependency Injection: Abhängigkeiten werden hineingegeben,
-          anstatt sie hier neu zu erfinden.
+          Dependency Injection: dependencies get put in,
+          instead of newly invented here.
         */
         this.config = config;
         this.eventBus = eventBus;
@@ -362,16 +361,16 @@
       }
 
       /*
-        Generiert ein Begrüßungsobjekt. Der Cache-Schlüssel ist
-        konstant, weil es nur eine universelle Begrüßung gibt.
+        Generates a greeting object. The cache key is
+        constant, because there is only one universal greeting.
       */
       generate() {
         const cacheKey = "default-greeting";
         const cachedGreeting = this.cache.get(cacheKey);
 
         /*
-          Ein Cache-Hit spart das Erstellen eines Objekts.
-          Das ist bei einer Begrüßung besonders wichtig.
+          A cache hit saves the creation of an object.
+          This is especially important for a greeting.
         */
         if (cachedGreeting) {
           return cachedGreeting;
@@ -379,26 +378,26 @@
 
         const greeting = {
           /*
-            crypto.randomUUID() erstellt eine zufällige Nummer,
-            die weltweit garantiert noch nie verwendet wurde.
+            crypto.randomUUID() creates a random number,
+            which is guaranteed to never have been used worldwide.
           */
           id: crypto.randomUUID?.() ?? String(Date.now()),
 
           /*
-            Der eigentliche Text. Er wird nicht verändert,
-            um die Anforderungen nicht zu übertreffen.
+            The actual text. It does not get changed,
+            so the requirements are not overachieved.
           */
           text: this.config.defaultMessage,
 
           /*
-            ISO-Datum wird verwendet, weil Computer dadurch
-            die aktuelle Uhrzeit besser verstehen.
+            ISO date gets used, because computers thereby
+            understand the current time better.
           */
           createdAt: new Date().toISOString(),
 
           /*
-            Die Umgebung legt fest, ob die Begrüßung lokal,
-            global oder möglicherweise im Weltall angezeigt wird.
+            The environment decides whether the greeting is shown locally,
+            globally, or possibly in outer space.
           */
           environment: this.config.environment
         };
@@ -408,8 +407,8 @@
       }
 
       /*
-        Führt den gesamten Begrüßungs-Lebenszyklus aus:
-        Zähler hoch, Text bauen, Ereignisse senden, fertig sein.
+        Executes the whole greeting life cycle:
+        counter up, build text, send events, be finished.
       */
       run() {
         this.metrics.increment();
@@ -424,20 +423,20 @@
     }
 
     /*
-      Bootstrapping ist der Vorgang, bei dem die Anwendung ihre
-      Stiefel anzieht und anschließend gestartet wird.
+      Bootstrapping is the process where the application puts on
+      its boots and afterwards gets started.
     */
     function bootstrapApplication() {
       /*
-        Dependency Injection Container, manuell und ohne Container.
+        Dependency Injection container, manually and without container.
       */
       const eventBus = new EventBus();
       const cache = new EnterpriseCache();
       const metrics = new MetricsService();
 
       /*
-        Der Service erhält alle benötigten Abhängigkeiten.
-        Das ist komplizierter als nötig und daher professionell.
+        The service receives all needed dependencies.
+        This is more complicated than necessary and therefore professional.
       */
       const greetingService = new GreetingService({
         config: CONFIG,
@@ -447,8 +446,8 @@
       });
 
       /*
-        document.querySelector ist eine schnelle Datenbankabfrage
-        über den gesamten DOM-Cluster.
+        document.querySelector is a fast database query
+        through the whole DOM cluster.
       */
       const output = document.querySelector("#output");
       const status = document.querySelector("#status");
@@ -457,15 +456,15 @@
       const copyButton = document.querySelector("#copy-button");
 
       /*
-        Der Badge wird dynamisch aktualisiert, damit er statisch
-        aussehen kann, obwohl er es nicht ist.
+        The badge gets dynamically updated, so it can look
+        static, although it is not.
       */
       environmentBadge.textContent = CONFIG.environment.toUpperCase();
-      status.textContent = "Systemstatus: betriebsbereit";
+      status.textContent = "System status: ready for operation";
 
       /*
-        Wenn eine Begrüßung erzeugt wurde, wird sie in den DOM
-        injiziert. Hier ist das unproblematisch, weil es unser Text ist.
+        When a greeting was generated, it gets injected into the DOM.
+        Here this is unproblematic because it is our text.
       */
       eventBus.subscribe("greeting:created", greeting => {
         output.textContent = greeting.text;
@@ -473,63 +472,53 @@
       });
 
       /*
-        Aktualisiert die Kennzahlen in der Entwicklerkonsole.
-        Diese Kennzahlen werden anschließend nicht angezeigt.
+        Updates the key numbers in the developer console.
+        These key numbers are afterwards not shown.
       */
       eventBus.subscribe("metrics:updated", snapshot => {
         console.debug("Metrics snapshot:", snapshot);
       });
 
       /*
-        Event Listener: wartet auf Klicks, auch wenn gerade
-        niemand klickt.
+        Event listener: waits for clicks, even when
+        nobody is clicking just now.
       */
       helloButton.addEventListener("click", () => {
         greetingService.run();
       });
 
       /*
-        Kopiert die Begrüßung in die Zwischenablage.
-        Das funktioniert nur, wenn der Browser es erlaubt.
+        Copies the greeting into the clipboard.
+        This only works if the browser allows it.
       */
       copyButton.addEventListener("click", async () => {
         const text = output.textContent || CONFIG.defaultMessage;
 
         try {
           await navigator.clipboard.writeText(text);
-          status.textContent = "Systemstatus: Begrüßung wurde kopiert";
+          status.textContent = "System status: greeting was copied";
         } catch {
           /*
-            Falls die Zwischenablage nicht erreichbar ist,
-            informieren wir den Statusbereich über den Text.
+            If the clipboard is not reachable,
+            we inform the status area about the text.
           */
-          status.textContent = `Systemstatus: Kopieren nicht möglich — ${text}`;
+          status.textContent = `System status: copying not possible — ${text}`;
         }
       });
 
       /*
-        Initialer Start: Die Anwendung begrüßt sich selbst,
-        um zu prüfen, ob sie dazu grundsätzlich in der Lage ist.
+        Initial start: the application greets itself,
+        to check whether it is basically able to do so.
       */
       greetingService.run();
     }
 
     /*
-      DOMContentLoaded wartet darauf, dass das Dokument geladen ist.
-      Es wartet nicht auf Bilder, weil Bilder hier nicht gebraucht werden.
+      DOMContentLoaded waits until the document is loaded.
+      It does not wait for pictures, because pictures are not needed here.
     */
     document.addEventListener("DOMContentLoaded", bootstrapApplication);
   </script>
 </body>
 </html>
 
-
-      // Initialer Systemstart: Hallo sagen, bevor jemand danach fragt.
-      greetingService.run();
-    }
-
-    // Startet die Plattform, sobald das DOM bereit ist.
-    document.addEventListener("DOMContentLoaded", bootstrapApplication);
-  </script>
-</body>
-</html>
