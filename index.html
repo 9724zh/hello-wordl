@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="enterprise">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eine maximal überengineerte Hello-World-Plattform">
+  <meta name="application-name" content="Hello World Enterprise Platform">
+  <title>Hello World Enterprise Platform™</title>
+
+  <style>
+    :root {
+      --brand-color: #5b5bd6;
+      --background: #f4f5f9;
+      --card-background: #ffffff;
+      --text-color: #20212a;
+      --muted-color: #737585;
+      --border-radius: 16px;
+      --shadow: 0 12px 40px rgba(30, 30, 60, 0.12);
+      --transition-speed: 180ms;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text-color);
+      background:
+        radial-gradient(circle at 20% 20%, #e3e3ff, transparent 35%),
+        var(--background);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100%, 640px);
+      padding: 36px;
+      background: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--brand-color);
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    p {
+      color: var(--muted-color);
+    }
+
+    button {
+      margin: 8px 4px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: var(--brand-color);
+      cursor: pointer;
+      transition: transform var(--transition-speed), opacity var(--transition-speed);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    #output {
+      min-height: 1.5em;
+      margin: 24px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    #status {
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #245b3a;
+      background: #dff7e8;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="application-root" aria-live="polite">
+    <span class="badge" id="environment-badge">INITIALIZING</span>
+    <h1>Hello World Platform™</h1>
+    <p>Eine skalierbare, zukunftssichere Begrüßungslösung.</p>
+
+    <div id="output">Warte auf Initialisierung …</div>
+
+    <button id="hello-button" type="button">Begrüßung ausführen</button>
+    <button id="copy-button" type="button">In Zwischenablage kopieren</button>
+
+    <p id="status">Systemstatus: wird ermittelt …</p>
+    <noscript>Diese hochkomplexe Plattform benötigt JavaScript.</noscript>
+  </main>
+
+  <script>
+    "use strict";
+
+    // Zentrale Konfiguration für die Begrüßungsinfrastruktur.
+    const CONFIG = Object.freeze({
+      appName: "hello-world-enterprise-platform",
+      appVersion: "0.0.1-alpha-final-v7",
+      defaultMessage: "Hello, World!",
+      environment: "production",
+      enableTelemetry: true,
+      enableQuantumMode: false,
+      retryCount: 3
+    });
+
+    // Eine eigens entwickelte, hochskalierbare Ereignisplattform.
+    class EventBus {
+      constructor() {
+        this.listeners = new Map();
+      }
+
+      subscribe(eventName, callback) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.push(callback);
+        this.listeners.set(eventName, callbacks);
+      }
+
+      publish(eventName, payload) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.forEach(callback => callback(payload));
+      }
+    }
+
+    // Ein Cache ist schließlich auch für eine Begrüßung unverzichtbar.
+    class EnterpriseCache {
+      constructor() {
+        this.data = new Map();
+      }
+
+      get(key) {
+        return this.data.get(key);
+      }
+
+      set(key, value) {
+        this.data.set(key, value);
+      }
+    }
+
+    // Observability: Wir messen, wie oft wir Hallo sagen.
+    class MetricsService {
+      constructor() {
+        this.counter = 0;
+        this.startedAt = performance.now();
+      }
+
+      increment() {
+        this.counter += 1;
+      }
+
+      getSnapshot() {
+        return {
+          greetings: this.counter,
+          uptimeMilliseconds: performance.now() - this.startedAt
+        };
+      }
+    }
+
+    class GreetingService {
+      constructor({ config, eventBus, cache, metrics }) {
+        this.config = config;
+        this.eventBus = eventBus;
+        this.cache = cache;
+        this.metrics = metrics;
+      }
+
+      generate() {
+        const cacheKey = "default-greeting";
+        const cachedGreeting = this.cache.get(cacheKey);
+
+        if (cachedGreeting) {
+          return cachedGreeting;
+        }
+
+        const greeting = {
+          id: crypto.randomUUID?.() ?? String(Date.now()),
+          text: this.config.defaultMessage,
+          createdAt: new Date().toISOString(),
+          environment: this.config.environment
+        };
+
+        this.cache.set(cacheKey, greeting);
+        return greeting;
+      }
+
+      run() {
+        this.metrics.increment();
+
+        const greeting = this.generate();
+
+        this.eventBus.publish("greeting:created", greeting);
+        this.eventBus.publish("metrics:updated", this.metrics.getSnapshot());
+
+        return greeting;
+      }
+    }
+
+    // Bootstrap, Dependency Injection und weitere Buzzword-Kompatibilität.
+    function bootstrapApplication() {
+      const eventBus = new EventBus();
+      const cache = new EnterpriseCache();
+      const metrics = new MetricsService();
+
+      const greetingService = new GreetingService({
+        config: CONFIG,
+        eventBus,
+        cache,
+        metrics
+      });
+
+      const output = document.querySelector("#output");
+      const status = document.querySelector("#status");
+      const environmentBadge = document.querySelector("#environment-badge");
+      const helloButton = document.querySelector("#hello-button");
+      const copyButton = document.querySelector("#copy-button");
+
+      environmentBadge.textContent = CONFIG.environment.toUpperCase();
+      status.textContent = "Systemstatus: betriebsbereit";
+
+      eventBus.subscribe("greeting:created", greeting => {
+        output.textContent = greeting.text;
+        console.info("Greeting event:", greeting);
+      });
+
+      eventBus.subscribe("metrics:updated", snapshot => {
+        console.debug("Metrics snapshot:", snapshot);
+      });
+
+      helloButton.addEventListener("click", () => {
+        greetingService.run();
+      });
+
+      copyButton.addEventListener("click", async () => {
+        const text = output.textContent || CONFIG.defaultMessage;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "Systemstatus: Begrüßung wurde kopiert";
+        } catch {
+          status.textContent = `Systemstatus: Kopieren nicht möglich — ${text}`;
+        }
+      });
+
+      // Initialer Systemstart: Hallo sagen, bevor jemand danach fragt.
+      greetingService.run();
+    }
+
+    // Startet die Plattform, sobald das DOM bereit ist.
+    document.addEventListener("DOMContentLoaded", bootstrapApplication);
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="de" data-theme="enterprise">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eine maximal überengineerte Hello-World-Plattform">
+  <meta name="application-name" content="Hello World Enterprise Platform">
+  <title>Hello World Enterprise Platform™</title>
+
+  <style>
+    :root {
+      --brand-color: #5b5bd6;
+      --background: #f4f5f9;
+      --card-background: #ffffff;
+      --text-color: #20212a;
+      --muted-color: #737585;
+      --border-radius: 16px;
+      --shadow: 0 12px 40px rgba(30, 30, 60, 0.12);
+      --transition-speed: 180ms;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text-color);
+      background:
+        radial-gradient(circle at 20% 20%, #e3e3ff, transparent 35%),
+        var(--background);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100%, 640px);
+      padding: 36px;
+      background: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--brand-color);
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    p {
+      color: var(--muted-color);
+    }
+
+    button {
+      margin: 8px 4px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: var(--brand-color);
+      cursor: pointer;
+      transition: transform var(--transition-speed), opacity var(--transition-speed);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    #output {
+      min-height: 1.5em;
+      margin: 24px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    #status {
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #245b3a;
+      background: #dff7e8;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="application-root" aria-live="polite">
+    <span class="badge" id="environment-badge">INITIALIZING</span>
+    <h1>Hello World Platform™</h1>
+    <p>Eine skalierbare, zukunftssichere Begrüßungslösung.</p>
+
+    <div id="output">Warte auf Initialisierung …</div>
+
+    <button id="hello-button" type="button">Begrüßung ausführen</button>
+    <button id="copy-button" type="button">In Zwischenablage kopieren</button>
+
+    <p id="status">Systemstatus: wird ermittelt …</p>
+    <noscript>Diese hochkomplexe Plattform benötigt JavaScript.</noscript>
+  </main>
+
+  <script>
+    "use strict";
+
+    // Zentrale Konfiguration für die Begrüßungsinfrastruktur.
+    const CONFIG = Object.freeze({
+      appName: "hello-world-enterprise-platform",
+      appVersion: "0.0.1-alpha-final-v7",
+      defaultMessage: "Hello, World!",
+      environment: "production",
+      enableTelemetry: true,
+      enableQuantumMode: false,
+      retryCount: 3
+    });
+
+    // Eine eigens entwickelte, hochskalierbare Ereignisplattform.
+    class EventBus {
+      constructor() {
+        this.listeners = new Map();
+      }
+
+      subscribe(eventName, callback) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.push(callback);
+        this.listeners.set(eventName, callbacks);
+      }
+
+      publish(eventName, payload) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.forEach(callback => callback(payload));
+      }
+    }
+
+    // Ein Cache ist schließlich auch für eine Begrüßung unverzichtbar.
+    class EnterpriseCache {
+      constructor() {
+        this.data = new Map();
+      }
+
+      get(key) {
+        return this.data.get(key);
+      }
+
+      set(key, value) {
+        this.data.set(key, value);
+      }
+    }
+
+    // Observability: Wir messen, wie oft wir Hallo sagen.
+    class MetricsService {
+      constructor() {
+        this.counter = 0;
+        this.startedAt = performance.now();
+      }
+
+      increment() {
+        this.counter += 1;
+      }
+
+      getSnapshot() {
+        return {
+          greetings: this.counter,
+          uptimeMilliseconds: performance.now() - this.startedAt
+        };
+      }
+    }
+
+    class GreetingService {
+      constructor({ config, eventBus, cache, metrics }) {
+        this.config = config;
+        this.eventBus = eventBus;
+        this.cache = cache;
+        this.metrics = metrics;
+      }
+
+      generate() {
+        const cacheKey = "default-greeting";
+        const cachedGreeting = this.cache.get(cacheKey);
+
+        if (cachedGreeting) {
+          return cachedGreeting;
+        }
+
+        const greeting = {
+          id: crypto.randomUUID?.() ?? String(Date.now()),
+          text: this.config.defaultMessage,
+          createdAt: new Date().toISOString(),
+          environment: this.config.environment
+        };
+
+        this.cache.set(cacheKey, greeting);
+        return greeting;
+      }
+
+      run() {
+        this.metrics.increment();
+
+        const greeting = this.generate();
+
+        this.eventBus.publish("greeting:created", greeting);
+        this.eventBus.publish("metrics:updated", this.metrics.getSnapshot());
+
+        return greeting;
+      }
+    }
+
+    // Bootstrap, Dependency Injection und weitere Buzzword-Kompatibilität.
+    function bootstrapApplication() {
+      const eventBus = new EventBus();
+      const cache = new EnterpriseCache();
+      const metrics = new MetricsService();
+
+      const greetingService = new GreetingService({
+        config: CONFIG,
+        eventBus,
+        cache,
+        metrics
+      });
+
+      const output = document.querySelector("#output");
+      const status = document.querySelector("#status");
+      const environmentBadge = document.querySelector("#environment-badge");
+      const helloButton = document.querySelector("#hello-button");
+      const copyButton = document.querySelector("#copy-button");
+
+      environmentBadge.textContent = CONFIG.environment.toUpperCase();
+      status.textContent = "Systemstatus: betriebsbereit";
+
+      eventBus.subscribe("greeting:created", greeting => {
+        output.textContent = greeting.text;
+        console.info("Greeting event:", greeting);
+      });
+
+      eventBus.subscribe("metrics:updated", snapshot => {
+        console.debug("Metrics snapshot:", snapshot);
+      });
+
+      helloButton.addEventListener("click", () => {
+        greetingService.run();
+      });
+
+      copyButton.addEventListener("click", async () => {
+        const text = output.textContent || CONFIG.defaultMessage;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "Systemstatus: Begrüßung wurde kopiert";
+        } catch {
+          status.textContent = `Systemstatus: Kopieren nicht möglich — ${text}`;
+        }
+      });
+
+      // Initialer Systemstart: Hallo sagen, bevor jemand danach fragt.
+      greetingService.run();
+    }
+
+    // Startet die Plattform, sobald das DOM bereit ist.
+    document.addEventListener("DOMContentLoaded", bootstrapApplication);
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="de" data-theme="enterprise">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eine maximal überengineerte Hello-World-Plattform">
+  <meta name="application-name" content="Hello World Enterprise Platform">
+  <title>Hello World Enterprise Platform™</title>
+
+  <style>
+    :root {
+      --brand-color: #5b5bd6;
+      --background: #f4f5f9;
+      --card-background: #ffffff;
+      --text-color: #20212a;
+      --muted-color: #737585;
+      --border-radius: 16px;
+      --shadow: 0 12px 40px rgba(30, 30, 60, 0.12);
+      --transition-speed: 180ms;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text-color);
+      background:
+        radial-gradient(circle at 20% 20%, #e3e3ff, transparent 35%),
+        var(--background);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100%, 640px);
+      padding: 36px;
+      background: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--brand-color);
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    p {
+      color: var(--muted-color);
+    }
+
+    button {
+      margin: 8px 4px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: var(--brand-color);
+      cursor: pointer;
+      transition: transform var(--transition-speed), opacity var(--transition-speed);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    #output {
+      min-height: 1.5em;
+      margin: 24px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    #status {
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #245b3a;
+      background: #dff7e8;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="application-root" aria-live="polite">
+    <span class="badge" id="environment-badge">INITIALIZING</span>
+    <h1>Hello World Platform™</h1>
+    <p>Eine skalierbare, zukunftssichere Begrüßungslösung.</p>
+
+    <div id="output">Warte auf Initialisierung …</div>
+
+    <button id="hello-button" type="button">Begrüßung ausführen</button>
+    <button id="copy-button" type="button">In Zwischenablage kopieren</button>
+
+    <p id="status">Systemstatus: wird ermittelt …</p>
+    <noscript>Diese hochkomplexe Plattform benötigt JavaScript.</noscript>
+  </main>
+
+  <script>
+    "use strict";
+
+    // Zentrale Konfiguration für die Begrüßungsinfrastruktur.
+    const CONFIG = Object.freeze({
+      appName: "hello-world-enterprise-platform",
+      appVersion: "0.0.1-alpha-final-v7",
+      defaultMessage: "Hello, World!",
+      environment: "production",
+      enableTelemetry: true,
+      enableQuantumMode: false,
+      retryCount: 3
+    });
+
+    // Eine eigens entwickelte, hochskalierbare Ereignisplattform.
+    class EventBus {
+      constructor() {
+        this.listeners = new Map();
+      }
+
+      subscribe(eventName, callback) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.push(callback);
+        this.listeners.set(eventName, callbacks);
+      }
+
+      publish(eventName, payload) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.forEach(callback => callback(payload));
+      }
+    }
+
+    // Ein Cache ist schließlich auch für eine Begrüßung unverzichtbar.
+    class EnterpriseCache {
+      constructor() {
+        this.data = new Map();
+      }
+
+      get(key) {
+        return this.data.get(key);
+      }
+
+      set(key, value) {
+        this.data.set(key, value);
+      }
+    }
+
+    // Observability: Wir messen, wie oft wir Hallo sagen.
+    class MetricsService {
+      constructor() {
+        this.counter = 0;
+        this.startedAt = performance.now();
+      }
+
+      increment() {
+        this.counter += 1;
+      }
+
+      getSnapshot() {
+        return {
+          greetings: this.counter,
+          uptimeMilliseconds: performance.now() - this.startedAt
+        };
+      }
+    }
+
+    class GreetingService {
+      constructor({ config, eventBus, cache, metrics }) {
+        this.config = config;
+        this.eventBus = eventBus;
+        this.cache = cache;
+        this.metrics = metrics;
+      }
+
+      generate() {
+        const cacheKey = "default-greeting";
+        const cachedGreeting = this.cache.get(cacheKey);
+
+        if (cachedGreeting) {
+          return cachedGreeting;
+        }
+
+        const greeting = {
+          id: crypto.randomUUID?.() ?? String(Date.now()),
+          text: this.config.defaultMessage,
+          createdAt: new Date().toISOString(),
+          environment: this.config.environment
+        };
+
+        this.cache.set(cacheKey, greeting);
+        return greeting;
+      }
+
+      run() {
+        this.metrics.increment();
+
+        const greeting = this.generate();
+
+        this.eventBus.publish("greeting:created", greeting);
+        this.eventBus.publish("metrics:updated", this.metrics.getSnapshot());
+
+        return greeting;
+      }
+    }
+
+    // Bootstrap, Dependency Injection und weitere Buzzword-Kompatibilität.
+    function bootstrapApplication() {
+      const eventBus = new EventBus();
+      const cache = new EnterpriseCache();
+      const metrics = new MetricsService();
+
+      const greetingService = new GreetingService({
+        config: CONFIG,
+        eventBus,
+        cache,
+        metrics
+      });
+
+      const output = document.querySelector("#output");
+      const status = document.querySelector("#status");
+      const environmentBadge = document.querySelector("#environment-badge");
+      const helloButton = document.querySelector("#hello-button");
+      const copyButton = document.querySelector("#copy-button");
+
+      environmentBadge.textContent = CONFIG.environment.toUpperCase();
+      status.textContent = "Systemstatus: betriebsbereit";
+
+      eventBus.subscribe("greeting:created", greeting => {
+        output.textContent = greeting.text;
+        console.info("Greeting event:", greeting);
+      });
+
+      eventBus.subscribe("metrics:updated", snapshot => {
+        console.debug("Metrics snapshot:", snapshot);
+      });
+
+      helloButton.addEventListener("click", () => {
+        greetingService.run();
+      });
+
+      copyButton.addEventListener("click", async () => {
+        const text = output.textContent || CONFIG.defaultMessage;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "Systemstatus: Begrüßung wurde kopiert";
+        } catch {
+          status.textContent = `Systemstatus: Kopieren nicht möglich — ${text}`;
+        }
+      });
+
+      // Initialer Systemstart: Hallo sagen, bevor jemand danach fragt.
+      greetingService.run();
+    }
+
+    // Startet die Plattform, sobald das DOM bereit ist.
+    document.addEventListener("DOMContentLoaded", bootstrapApplication);
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="de" data-theme="enterprise">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Eine maximal überengineerte Hello-World-Plattform">
+  <meta name="application-name" content="Hello World Enterprise Platform">
+  <title>Hello World Enterprise Platform™</title>
+
+  <style>
+    :root {
+      --brand-color: #5b5bd6;
+      --background: #f4f5f9;
+      --card-background: #ffffff;
+      --text-color: #20212a;
+      --muted-color: #737585;
+      --border-radius: 16px;
+      --shadow: 0 12px 40px rgba(30, 30, 60, 0.12);
+      --transition-speed: 180ms;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text-color);
+      background:
+        radial-gradient(circle at 20% 20%, #e3e3ff, transparent 35%),
+        var(--background);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(100%, 640px);
+      padding: 36px;
+      background: var(--card-background);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--brand-color);
+      font-size: clamp(2rem, 8vw, 3.5rem);
+    }
+
+    p {
+      color: var(--muted-color);
+    }
+
+    button {
+      margin: 8px 4px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 10px;
+      color: white;
+      background: var(--brand-color);
+      cursor: pointer;
+      transition: transform var(--transition-speed), opacity var(--transition-speed);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    #output {
+      min-height: 1.5em;
+      margin: 24px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    #status {
+      font-size: 0.85rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: #245b3a;
+      background: #dff7e8;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main id="application-root" aria-live="polite">
+    <span class="badge" id="environment-badge">INITIALIZING</span>
+    <h1>Hello World Platform™</h1>
+    <p>Eine skalierbare, zukunftssichere Begrüßungslösung.</p>
+
+    <div id="output">Warte auf Initialisierung …</div>
+
+    <button id="hello-button" type="button">Begrüßung ausführen</button>
+    <button id="copy-button" type="button">In Zwischenablage kopieren</button>
+
+    <p id="status">Systemstatus: wird ermittelt …</p>
+    <noscript>Diese hochkomplexe Plattform benötigt JavaScript.</noscript>
+  </main>
+
+  <script>
+    "use strict";
+
+    // Zentrale Konfiguration für die Begrüßungsinfrastruktur.
+    const CONFIG = Object.freeze({
+      appName: "hello-world-enterprise-platform",
+      appVersion: "0.0.1-alpha-final-v7",
+      defaultMessage: "Hello, World!",
+      environment: "production",
+      enableTelemetry: true,
+      enableQuantumMode: false,
+      retryCount: 3
+    });
+
+    // Eine eigens entwickelte, hochskalierbare Ereignisplattform.
+    class EventBus {
+      constructor() {
+        this.listeners = new Map();
+      }
+
+      subscribe(eventName, callback) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.push(callback);
+        this.listeners.set(eventName, callbacks);
+      }
+
+      publish(eventName, payload) {
+        const callbacks = this.listeners.get(eventName) ?? [];
+        callbacks.forEach(callback => callback(payload));
+      }
+    }
+
+    // Ein Cache ist schließlich auch für eine Begrüßung unverzichtbar.
+    class EnterpriseCache {
+      constructor() {
+        this.data = new Map();
+      }
+
+      get(key) {
+        return this.data.get(key);
+      }
+
+      set(key, value) {
+        this.data.set(key, value);
+      }
+    }
+
+    // Observability: Wir messen, wie oft wir Hallo sagen.
+    class MetricsService {
+      constructor() {
+        this.counter = 0;
+        this.startedAt = performance.now();
+      }
+
+      increment() {
+        this.counter += 1;
+      }
+
+      getSnapshot() {
+        return {
+          greetings: this.counter,
+          uptimeMilliseconds: performance.now() - this.startedAt
+        };
+      }
+    }
+
+    class GreetingService {
+      constructor({ config, eventBus, cache, metrics }) {
+        this.config = config;
+        this.eventBus = eventBus;
+        this.cache = cache;
+        this.metrics = metrics;
+      }
+
+      generate() {
+        const cacheKey = "default-greeting";
+        const cachedGreeting = this.cache.get(cacheKey);
+
+        if (cachedGreeting) {
+          return cachedGreeting;
+        }
+
+        const greeting = {
+          id: crypto.randomUUID?.() ?? String(Date.now()),
+          text: this.config.defaultMessage,
+          createdAt: new Date().toISOString(),
+          environment: this.config.environment
+        };
+
+        this.cache.set(cacheKey, greeting);
+        return greeting;
+      }
+
+      run() {
+        this.metrics.increment();
+
+        const greeting = this.generate();
+
+        this.eventBus.publish("greeting:created", greeting);
+        this.eventBus.publish("metrics:updated", this.metrics.getSnapshot());
+
+        return greeting;
+      }
+    }
+
+    // Bootstrap, Dependency Injection und weitere Buzzword-Kompatibilität.
+    function bootstrapApplication() {
+      const eventBus = new EventBus();
+      const cache = new EnterpriseCache();
+      const metrics = new MetricsService();
+
+      const greetingService = new GreetingService({
+        config: CONFIG,
+        eventBus,
+        cache,
+        metrics
+      });
+
+      const output = document.querySelector("#output");
+      const status = document.querySelector("#status");
+      const environmentBadge = document.querySelector("#environment-badge");
+      const helloButton = document.querySelector("#hello-button");
+      const copyButton = document.querySelector("#copy-button");
+
+      environmentBadge.textContent = CONFIG.environment.toUpperCase();
+      status.textContent = "Systemstatus: betriebsbereit";
+
+      eventBus.subscribe("greeting:created", greeting => {
+        output.textContent = greeting.text;
+        console.info("Greeting event:", greeting);
+      });
+
+      eventBus.subscribe("metrics:updated", snapshot => {
+        console.debug("Metrics snapshot:", snapshot);
+      });
+
+      helloButton.addEventListener("click", () => {
+        greetingService.run();
+      });
+
+      copyButton.addEventListener("click", async () => {
+        const text = output.textContent || CONFIG.defaultMessage;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          status.textContent = "Systemstatus: Begrüßung wurde kopiert";
+        } catch {
+          status.textContent = `Systemstatus: Kopieren nicht möglich — ${text}`;
+        }
+      });
+
+      // Initialer Systemstart: Hallo sagen, bevor jemand danach fragt.
+      greetingService.run();
+    }
+
+    // Startet die Plattform, sobald das DOM bereit ist.
+    document.addEventListener("DOMContentLoaded", bootstrapApplication);
+  </script>
+</body>
+</html>
